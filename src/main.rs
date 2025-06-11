@@ -24,7 +24,7 @@ fn perf_counter_test(name: &'static str, event: impl Event, core: usize) {
         )
         .build()
     {
-        Ok(counter) => {
+        Ok(mut counter) => {
             let iterations = 500_000;
             let start = Instant::now();
 
