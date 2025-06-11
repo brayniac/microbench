@@ -29,7 +29,7 @@ fn perf_counter_test(name: &'static str, event: impl Event, core: usize) {
             let start = Instant::now();
 
             for _ in 0..iterations {
-                if let Ok(group) = self.counter.read_group() {
+                if let Ok(group) = counter.read_group() {
                     if let Some(counter) = group.get(&self.counter) {
                         black_box(counter.value());
                     } else {
@@ -42,10 +42,10 @@ fn perf_counter_test(name: &'static str, event: impl Event, core: usize) {
 
             let latency = start.elapsed().as_nanos() / iterations;
 
-            println!("counter: {} latency: {} ns/iter", name, latency);
+            println!("counter: {name} latency: {latency} ns/iter");
         }
         Err(e) => {
-            eprintln!("counter: {} could not be initialized");
+            eprintln!("counter: {name} could not be initialized");
         }
     }
 }
