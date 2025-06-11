@@ -26,7 +26,15 @@ fn perf_counter_test(name: &'static str, event: impl Event, core: usize) {
             let start = Instant::now();
 
             for _ in 0..iterations {
-                black_box(counter.value());
+                if let Ok(group) = self.counter.read_group() {
+                    if let Some(counter) = group.get(&self.counter) {
+                        black_box(counter.value());
+                    } else {
+                        panic!("couldn't read counter");
+                    }
+                } else {
+                    panic!("perf group read failed");
+                }
             }
 
             let latency = start.elapsed().as_nanos() / iterations;
