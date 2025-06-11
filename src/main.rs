@@ -1,6 +1,9 @@
 use std::time::Instant;
 use std::hint::black_box;
 
+use perf_event::ReadFormat;
+use perf_event::events::x86::{Msr, MsrId};
+
 fn main() {
     perf_counter_test("APERF", Msr::new(MsrId::APERF), 0);
 }
