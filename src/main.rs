@@ -29,7 +29,7 @@ fn perf_counter_test(name: &'static str, event: impl Event, core: usize) {
             let start = Instant::now();
 
             for _ in 0..iterations {
-                if group.enable_group.is_ok() {
+                if group.enable_group().is_ok() {
                     if let Ok(reading) = group.read_group() {
                         if let Some(counter) = reading.get(&counter) {
                             black_box(counter.value());
