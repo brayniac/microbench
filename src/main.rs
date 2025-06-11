@@ -24,19 +24,23 @@ fn perf_counter_test(name: &'static str, event: impl Event, core: usize) {
         )
         .build()
     {
-        Ok(mut counter) => {
+        Ok(mut group) => {
             let iterations = 500_000;
             let start = Instant::now();
 
             for _ in 0..iterations {
-                if let Ok(group) = counter.read_group() {
-                    if let Some(counter) = group.get(&counter) {
-                        black_box(counter.value());
+                if group.enable_group.is_ok() {
+                    if let Ok(reading) = group.read_group() {
+                        if let Some(counter) = reading.get(&counter) {
+                            black_box(counter.value());
+                        } else {
+                            panic!("couldn't read counter");
+                        }
                     } else {
-                        panic!("couldn't read counter");
+                        panic!("perf group read failed");
                     }
                 } else {
-                    panic!("perf group read failed");
+                    panic!("failed to enable perf group")
                 }
             }
 
