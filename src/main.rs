@@ -31,7 +31,7 @@ fn perf_counter_test(name: &'static str, event: impl Event, core: usize) {
             for _ in 0..iterations {
                 if group.enable_group().is_ok() {
                     if let Ok(reading) = group.read_group() {
-                        if let Some(counter) = reading.get(&counter) {
+                        if let Some(counter) = reading.get(&group) {
                             black_box(counter.value());
                         } else {
                             panic!("couldn't read counter");
