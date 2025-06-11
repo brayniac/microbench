@@ -2,6 +2,7 @@ use std::time::Instant;
 use std::hint::black_box;
 
 use perf_event::ReadFormat;
+use perf_event::events::Event;
 use perf_event::events::x86::{Msr, MsrId};
 
 fn main() {
