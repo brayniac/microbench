@@ -6,7 +6,10 @@ use perf_event::events::Event;
 use perf_event::events::x86::{Msr, MsrId};
 
 fn main() {
-    perf_counter_test("APERF", Msr::new(MsrId::APERF), 0);
+
+    if let Ok(msr) = Msr::new(MsrId::APERF) {
+        perf_counter_test("APERF", msr, 0);
+    }
 }
 
 fn perf_counter_test(name: &'static str, event: impl Event, core: usize) {
