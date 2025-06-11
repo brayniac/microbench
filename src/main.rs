@@ -34,7 +34,7 @@ fn perf_counter_test(name: &'static str, event: impl Event, core: usize) {
             println!("counter: {} latency: {} ns/iter", name, latency);
         }
         Err(e) => {
-            Err(())
+            eprintln!("counter: {} could not be initialized");
         }
     }
 }
